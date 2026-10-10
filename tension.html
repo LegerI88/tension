@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Repérer les signes de tension – Bac Pro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal:#2a8c9c; --teal-d:#1d6673; --teal-l:#e3f3f5;
+  --violet:#7b5cc4; --violet-l:#efeafb;
+  --orange:#f0883e; --orange-l:#fdeee2;
+  --green:#5aa84a; --green-l:#e8f5e4;
+  --red:#e0524b; --red-l:#fde8e7;
+  --yellow:#f6c84c; --yellow-l:#fff7dc;
+  --ink:#24323a; --muted:#5f6f78; --line:#d9e2e6; --bg:#f3f7f8; --card:#ffffff;
+  --radius:18px; --shadow:0 6px 22px rgba(30,70,80,.10);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Nunito",system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;font-size:17px}
+h1,h2,h3,h4{font-family:"Baloo 2",cursive;line-height:1.15;margin:0 0 .4em}
+a{color:var(--teal-d)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 18px}
+
+/* ---------- HERO ---------- */
+.hero{background:linear-gradient(135deg,var(--teal) 0%,#3aa3a8 55%,var(--violet) 130%);color:#fff;padding:46px 0 70px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:-80px;top:-80px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.08)}
+.hero .tag{display:inline-block;background:rgba(255,255,255,.2);padding:4px 14px;border-radius:30px;font-weight:700;font-size:.85rem;letter-spacing:.04em}
+.hero h1{font-size:clamp(2rem,5vw,3.3rem);margin:.3em 0 .2em}
+.hero p{max-width:720px;font-size:1.08rem;opacity:.95;margin:0}
+.hero .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.hero .meta span{background:#fff;color:var(--teal-d);padding:6px 14px;border-radius:12px;font-weight:800;font-size:.9rem}
+
+/* ---------- NAV ---------- */
+nav.top{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+nav.top .wrap{display:flex;gap:6px;overflow-x:auto;padding:10px 18px;scrollbar-width:none}
+nav.top a{flex:0 0 auto;text-decoration:none;font-weight:800;font-size:.86rem;padding:7px 13px;border-radius:30px;color:var(--muted);background:var(--bg);transition:.2s}
+nav.top a:hover,nav.top a.active{background:var(--teal);color:#fff}
+#progress{position:absolute;left:0;bottom:-1px;height:3px;background:linear-gradient(90deg,var(--orange),var(--violet));width:0}
+
+/* ---------- SECTIONS ---------- */
+section{padding:40px 0 10px;scroll-margin-top:60px}
+.sec-head{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.num{flex:0 0 auto;width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-family:"Baloo 2";font-weight:800;font-size:1.6rem;color:#fff;background:var(--teal);box-shadow:var(--shadow)}
+.sec-head h2{font-size:clamp(1.6rem,3.6vw,2.2rem);margin:0}
+.sec-head small{display:block;color:var(--muted);font-weight:700;font-family:"Nunito"}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:22px}
+.card h3{font-size:1.4rem;color:var(--teal-d)}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.pill{display:inline-block;padding:2px 10px;border-radius:20px;font-size:.78rem;font-weight:800;letter-spacing:.03em;text-transform:uppercase}
+
+/* boxes */
+.def{border-left:6px solid var(--teal);background:var(--teal-l);padding:14px 18px;border-radius:12px;margin:14px 0}
+.def b:first-child{color:var(--teal-d)}
+.retenir{border:2px dashed var(--orange);background:var(--orange-l);padding:14px 18px;border-radius:14px;margin:14px 0}
+.retenir:before{content:"💡 À retenir";display:block;font-family:"Baloo 2";font-weight:800;color:#b85d16;font-size:1.1rem}
+.attention{background:var(--red-l);border-left:6px solid var(--red);padding:12px 16px;border-radius:12px;margin:14px 0}
+.chiffre{background:var(--violet-l);border-radius:14px;padding:16px;text-align:center}
+.chiffre strong{display:block;font-family:"Baloo 2";font-size:2rem;color:var(--violet);line-height:1.1}
+.chiffre span{font-size:.92rem;font-weight:700}
+.src{font-size:.78rem;color:var(--muted);margin-top:8px}
+
+/* situation */
+.situation{background:linear-gradient(120deg,#fff 0%,var(--yellow-l) 100%);border:2px solid var(--yellow)}
+.persona{display:flex;gap:16px;align-items:flex-start}
+.avatar{flex:0 0 74px;height:74px;border-radius:50%;background:var(--yellow);display:grid;place-items:center;font-size:2.4rem}
+
+/* tables */
+table{width:100%;border-collapse:collapse;font-size:.95rem}
+th,td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;text-align:left}
+th{background:var(--teal);color:#fff;font-family:"Baloo 2";font-size:1.05rem}
+tr:nth-child(even) td{background:#f8fbfc}
+.tscroll{overflow-x:auto}
+
+/* forms of commerce cards */
+.forme{border-radius:16px;padding:18px;color:var(--ink);border-top:8px solid}
+.forme h4{font-size:1.3rem;margin-bottom:6px}
+.f1{background:#eef1fb;border-color:#5b6fc7}
+.f2{background:var(--violet-l);border-color:var(--violet)}
+.f3{background:var(--teal-l);border-color:var(--teal)}
+.forme ul{padding-left:18px;margin:8px 0}
+
+/* franchise schema */
+.franchise{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center}
+.fbox{border-radius:16px;padding:16px;color:#fff;text-align:center;font-weight:700}
+.fbox h4{font-size:1.35rem;margin:0}
+.fbox.fr{background:var(--green)} .fbox.fe{background:var(--orange)}
+.arrows{text-align:center;font-weight:800;font-size:.9rem}
+.arrows div{padding:6px 10px;border-radius:10px;margin:6px 0}
+.arrows .a1{background:var(--green-l);color:#2f6d23} .arrows .a2{background:var(--orange-l);color:#a95413}
+@media(max-width:640px){.franchise{grid-template-columns:1fr}}
+
+/* circuits */
+.circuit{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:10px 0;padding:12px;border-radius:14px;background:var(--bg)}
+.circuit .lab{font-family:"Baloo 2";font-weight:800;min-width:120px;font-size:1.15rem}
+.node{background:#fff;border:2px solid var(--line);border-radius:12px;padding:6px 12px;font-weight:700;font-size:.92rem}
+.arr{color:var(--muted);font-weight:800}
+
+/* market blocks */
+.mk{border-radius:16px;padding:18px;color:#fff}
+.mk h4{font-size:1.35rem;margin:0 0 6px}
+.mk ul{margin:0;padding-left:18px}
+.mk.i{background:var(--teal)} .mk.o{background:var(--violet)} .mk.d{background:var(--orange)} .mk.e{background:var(--green)}
+
+/* pestel */
+.pestel{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.pestel div{background:var(--green-l);border-radius:12px;padding:10px 12px;font-size:.9rem}
+.pestel b{display:block;font-family:"Baloo 2";font-size:1.5rem;color:#3c7d2e;line-height:1}
+
+/* zone svg */
+.zone-wrap{display:grid;grid-template-columns:1.3fr 1fr;gap:20px;align-items:center}
+@media(max-width:760px){.zone-wrap{grid-template-columns:1fr}}
+.zone-wrap svg{width:100%;height:auto}
+.zone-wrap svg .z{cursor:pointer;transition:.2s}
+.zone-wrap svg .z:hover{opacity:.85}
+#zoneInfo{background:var(--bg);border-radius:14px;padding:16px;min-height:170px}
+#zoneInfo h4{font-size:1.3rem}
+
+/* ACTIVITIES */
+.activite{border:3px solid var(--violet);background:#fff}
+.activite > h3{color:var(--violet)}
+.activite > h3:before{content:"✏️ ";}
+.act-tag{background:var(--violet);color:#fff}
+.consigne{background:var(--violet-l);padding:10px 14px;border-radius:12px;font-weight:700;margin-bottom:14px}
+.row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:12px;border:2px solid var(--line);margin-bottom:8px;transition:.2s}
+.row p{margin:0;flex:1 1 300px}
+select,input[type=number],input[type=text]{font-family:inherit;font-size:.95rem;padding:7px 10px;border-radius:10px;border:2px solid var(--line);background:#fff;min-width:170px}
+input[type=number]{min-width:120px;max-width:160px}
+.row.ok{border-color:var(--green);background:var(--green-l)}
+.row.ko{border-color:var(--red);background:var(--red-l)}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+button{font-family:"Nunito";font-weight:800;font-size:.95rem;border:0;border-radius:12px;padding:10px 16px;cursor:pointer;transition:.15s}
+button:active{transform:scale(.97)}
+.b-check{background:var(--violet);color:#fff}
+.b-sol{background:var(--bg);color:var(--ink);border:2px solid var(--line)}
+.b-reset{background:transparent;color:var(--muted);text-decoration:underline}
+.score{font-weight:800;font-family:"Baloo 2";font-size:1.2rem;color:var(--violet);align-self:center}
+.solution{display:none;background:var(--green-l);border-left:6px solid var(--green);padding:12px 16px;border-radius:12px;margin-top:12px}
+.solution.show{display:block}
+.doc{background:var(--bg);border-radius:14px;padding:14px 16px;margin:10px 0;font-size:.95rem}
+.doc h4{font-size:1.1rem;color:var(--muted);margin-bottom:4px}
+.fictif{font-size:.75rem;font-weight:800;color:#a95413;background:var(--orange-l);padding:2px 8px;border-radius:8px}
+
+/* simulator */
+.sim{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;align-items:end}
+.sim label{font-weight:700;font-size:.9rem;display:block}
+.sim input{width:100%;max-width:none}
+.result{background:linear-gradient(120deg,var(--teal),var(--violet));color:#fff;border-radius:14px;padding:16px;margin-top:14px;font-weight:700}
+.result strong{font-family:"Baloo 2";font-size:1.7rem}
+
+/* flip cards */
+.flip{perspective:900px;height:150px;cursor:pointer}
+.flip-in{position:relative;width:100%;height:100%;transition:transform .55s;transform-style:preserve-3d}
+.flip.on .flip-in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border-radius:16px;padding:14px;display:flex;align-items:center;justify-content:center;text-align:center;backface-visibility:hidden;box-shadow:var(--shadow)}
+.face.front{background:#fff;border:3px solid var(--teal);font-family:"Baloo 2";font-weight:800;font-size:1.25rem;color:var(--teal-d)}
+.face.back{background:var(--teal);color:#fff;transform:rotateY(180deg);font-size:.88rem;font-weight:600}
+
+/* synthese map */
+.map{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.map .b{border-radius:16px;padding:16px;background:#fff;box-shadow:var(--shadow);border-top:8px solid}
+.map .b h4{font-size:1.2rem}
+.map ul{padding-left:18px;margin:0;font-size:.93rem}
+.center-title{text-align:center;background:var(--teal);color:#fff;border-radius:20px;padding:14px;font-family:"Baloo 2";font-size:1.6rem;font-weight:800;margin-bottom:14px}
+
+/* quiz */
+.q{border:2px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:12px}
+.q p{margin:0 0 8px;font-weight:800}
+.q label{display:block;padding:7px 10px;border-radius:10px;cursor:pointer;margin:3px 0}
+.q label:hover{background:var(--bg)}
+.q.ok{border-color:var(--green);background:var(--green-l)}
+.q.ko{border-color:var(--red);background:var(--red-l)}
+.q .expl{display:none;font-size:.9rem;margin-top:6px;color:var(--muted)}
+.q.ok .expl,.q.ko .expl{display:block}
+#quizScore{font-family:"Baloo 2";font-size:1.6rem;font-weight:800}
+
+/* misc */
+.check-list{list-style:none;padding:0}
+.check-list li{padding:6px 0 6px 30px;position:relative}
+.check-list li:before{content:"✔";position:absolute;left:4px;color:var(--green);font-weight:800}
+footer{background:var(--ink);color:#cfd8dc;padding:30px 0;margin-top:40px;font-size:.88rem}
+footer a{color:#9fe0e8}
+.sources li{margin-bottom:6px}
+.print-btn{position:fixed;right:18px;bottom:18px;z-index:60;background:var(--orange);color:#fff;box-shadow:var(--shadow);border-radius:50px}
+.timeline{display:flex;flex-wrap:wrap;gap:10px;counter-reset:st}
+.step{flex:1 1 170px;background:#fff;border:2px solid var(--teal);border-radius:14px;padding:12px;position:relative;counter-increment:st}
+.step:before{content:counter(st);position:absolute;top:-14px;left:12px;background:var(--teal);color:#fff;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:800}
+.step h4{margin-top:6px;font-size:1.1rem;color:var(--teal-d)}
+.step p{margin:0;font-size:.9rem}
+
+/* auteur */
+.author{display:inline-flex;align-items:center;gap:8px;background:rgba(0,0,0,.18);padding:6px 14px;border-radius:30px;font-weight:800;font-size:.95rem;margin-left:8px}
+
+/* mode enseignant */
+.prof-only{display:none!important}
+body.prof .prof-only{display:inline-block!important}
+body.prof section.prof-only,body.prof div.prof-only{display:block!important}
+.prof-btn{position:fixed;left:18px;bottom:18px;z-index:60;background:var(--ink);color:#fff;box-shadow:var(--shadow);border-radius:50px}
+body.prof .prof-btn{background:var(--green)}
+.modal{position:fixed;inset:0;background:rgba(20,35,40,.55);z-index:100;display:none;align-items:center;justify-content:center;padding:18px}
+.modal.open{display:flex}
+.modal-box{background:#fff;border-radius:20px;padding:26px;max-width:380px;width:100%;box-shadow:0 20px 50px rgba(0,0,0,.3);text-align:center}
+.modal-box input{width:100%;margin:12px 0;text-align:center;font-size:1.1rem;letter-spacing:.1em}
+#codeMsg{color:var(--red);font-weight:700;min-height:1.4em;margin:0}
+.prof-zone{border:3px solid var(--ink);background:#fff}
+.prof-banner{background:var(--ink);color:#fff;padding:8px 0;text-align:center;font-weight:800;position:sticky;top:0;z-index:55}
+.corr-list{columns:2 260px;font-size:.92rem}
+.corr-list li{break-inside:avoid;margin-bottom:4px}
+
+
+/* avatar */
+.author{padding:4px 16px 4px 4px}
+.author svg{width:46px;height:46px;border-radius:50%;background:#fff;border:3px solid #ffd28a;display:block}
+.av .eyes{animation:blink 4.5s infinite;transform-box:fill-box;transform-origin:center}
+.av .mouth{transform-box:fill-box;transform-origin:center;opacity:0}
+.av .smile{transition:opacity .15s}
+.talking .av .mouth{opacity:1}
+.talking .av .smile{opacity:0}
+.talking .av .mouth{animation:talk .18s infinite alternate}
+.talking .av .head{animation:nod 1.6s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+@keyframes talk{from{transform:scaleY(.6)}to{transform:scaleY(2.4)}}
+@keyframes nod{0%,100%{transform:rotate(0)}50%{transform:rotate(2deg)}}
+
+/* capsule vidéo – style studio */
+.capsule{position:relative;border-radius:26px;overflow:hidden;margin-bottom:26px;color:#fff;isolation:isolate;
+  background:radial-gradient(circle at 12% 88%,rgba(240,136,62,.45),transparent 42%),radial-gradient(circle at 88% 10%,rgba(123,92,196,.55),transparent 46%),linear-gradient(135deg,#0d2c35 0%,#162a52 100%);
+  box-shadow:0 18px 50px rgba(15,35,60,.35),inset 0 0 0 1px rgba(255,255,255,.08)}
+.capsule:before,.capsule:after{content:"";position:absolute;border-radius:50%;filter:blur(40px);z-index:-1;animation:float 9s ease-in-out infinite}
+.capsule:before{width:180px;height:180px;background:#2a8c9c;left:35%;top:-60px}
+.capsule:after{width:140px;height:140px;background:#e0524b;right:10%;bottom:-50px;animation-delay:-4s;opacity:.6}
+@keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,20px)}}
+.cap-top{display:flex;align-items:center;gap:12px;padding:16px 20px 4px;flex-wrap:wrap}
+.cap-chip{background:linear-gradient(90deg,#f0883e,#e0524b);padding:4px 12px;border-radius:30px;font-weight:800;font-size:.75rem;letter-spacing:.12em}
+.cap-title{font-family:"Baloo 2";font-weight:800;font-size:clamp(1.2rem,2.6vw,1.6rem);flex:1}
+.cap-count{font-weight:800;font-size:.85rem;opacity:.75;font-variant-numeric:tabular-nums}
+.stage{display:grid;grid-template-columns:230px 1fr;gap:18px;padding:10px 20px 0;min-height:320px;align-items:end}
+@media(max-width:640px){.stage{grid-template-columns:120px 1fr;gap:10px;min-height:270px}}
+.who{position:relative;align-self:end}
+.who:before{content:"";position:absolute;left:8%;right:8%;bottom:4%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.22),rgba(255,255,255,0) 70%);z-index:-1}
+.stage .av{width:100%;height:auto;display:block;overflow:visible;filter:drop-shadow(0 10px 18px rgba(0,0,0,.35))}
+.lower{position:absolute;left:-4px;bottom:14px;background:rgba(255,255,255,.95);color:var(--ink);border-radius:12px;padding:5px 12px 5px 10px;border-left:5px solid var(--orange);box-shadow:0 6px 18px rgba(0,0,0,.25);line-height:1.15}
+.lower b{display:block;font-family:"Baloo 2";font-size:1rem}
+.lower span{font-size:.72rem;font-weight:700;color:var(--muted)}
+@media(max-width:640px){.lower{display:none}}
+.board{position:relative;align-self:stretch;margin-bottom:18px;min-height:260px;border-radius:22px;padding:22px 24px;display:flex;flex-direction:column;justify-content:center;
+  background:linear-gradient(150deg,rgba(255,255,255,.16),rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(8px);box-shadow:0 10px 30px rgba(0,0,0,.25);font-family:"Baloo 2"}
+.board.swap{animation:swap .55s both}
+@keyframes swap{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+.board h4{font-size:clamp(1.3rem,3vw,2rem);margin:0 0 10px;background:linear-gradient(90deg,#ffd28a,#ff9f7a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.board p,.board li{font-size:clamp(1rem,2.2vw,1.25rem);margin:5px 0;color:#f4f7fb}
+.board ul{margin:0;padding-left:22px}
+.board li::marker{color:#ffd28a}
+.board .big{font-size:clamp(2.2rem,6vw,3.6rem);text-align:center;margin:0}
+.board .row3{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+.board .chip{background:linear-gradient(135deg,rgba(255,255,255,.2),rgba(255,255,255,.06));border:1px solid rgba(255,255,255,.35);border-radius:14px;padding:9px 14px;text-align:center;font-size:clamp(.95rem,2vw,1.15rem);box-shadow:0 4px 14px rgba(0,0,0,.15)}
+.board svg{max-height:200px;width:100%}
+.board .num-corner{position:absolute;top:12px;right:16px;font-size:.8rem;opacity:.55;font-family:"Nunito";font-weight:800}
+.pop{animation:pop .5s both}
+.d1{animation-delay:.6s}.d2{animation-delay:1.4s}.d3{animation-delay:2.2s}.d4{animation-delay:3s}
+@keyframes pop{from{opacity:0;transform:translateY(12px) scale(.96)}to{opacity:1;transform:none}}
+.grow{transform-box:fill-box;transform-origin:center;animation:grow .7s both}
+@keyframes grow{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.subs{margin:0 20px 14px;padding:12px 18px;border-radius:16px;background:rgba(5,12,25,.55);border:1px solid rgba(255,255,255,.08);font-size:1.02rem;min-height:3.4em;line-height:1.5;text-align:center}
+.subs span{opacity:.55;transition:opacity .3s,color .3s}
+.subs span.on{opacity:1;color:#ffd28a}
+.subs.all span{opacity:1}
+.ctrl{display:flex;align-items:center;gap:8px;padding:0 20px 18px;flex-wrap:wrap}
+.ctrl button{background:rgba(255,255,255,.12);color:#fff;width:42px;height:42px;padding:0;border-radius:50%;font-size:1rem;display:grid;place-items:center}
+.ctrl button:hover{background:rgba(255,255,255,.22)}
+.ctrl button.main{width:56px;height:56px;font-size:1.3rem;background:linear-gradient(135deg,#f0883e,#e0524b);box-shadow:0 6px 18px rgba(224,82,75,.45)}
+.vnote{font-size:.78rem;font-weight:700;opacity:.8;max-width:210px;line-height:1.2}
+.dots{display:flex;gap:6px;flex:1;min-width:120px}
+.dots span{flex:1;height:7px;border-radius:6px;background:rgba(255,255,255,.18);cursor:pointer;transition:.3s}
+.dots span.done{background:linear-gradient(90deg,#f0883e,#e0524b)}
+.dots span.cur{background:#ffd28a;box-shadow:0 0 10px rgba(255,210,138,.7)}
+.cover{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:20px;
+  background:radial-gradient(circle at 50% 40%,rgba(42,140,156,.55),rgba(10,20,40,.92) 70%);backdrop-filter:blur(4px);transition:opacity .4s}
+.cover.hide{opacity:0;pointer-events:none}
+.cover .cface{width:110px;height:110px;border-radius:50%;background:#fff;border:4px solid #ffd28a;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.cover .cface svg{width:100%;height:100%}
+.cover h3{font-size:clamp(1.6rem,4vw,2.4rem);margin:0;color:#fff}
+.cover p{margin:0;opacity:.85;font-weight:700}
+.cover button{background:linear-gradient(135deg,#f0883e,#e0524b);color:#fff;font-size:1.1rem;padding:12px 26px;border-radius:40px;box-shadow:0 8px 24px rgba(224,82,75,.5)}
+.capsule:fullscreen{display:flex;flex-direction:column;border-radius:0}
+.capsule:fullscreen .stage{flex:1;grid-template-columns:28% 1fr}
+.capsule:fullscreen .subs{font-size:1.5rem}
+.av .arm{transform-box:view-box;transform-origin:151px 204px;transform:rotate(-12deg);transition:transform .6s cubic-bezier(.3,1.4,.5,1)}
+.talking .av .arm{transform:rotate(-112deg);animation:wave 1.8s ease-in-out .6s infinite}
+@keyframes wave{0%,100%{transform:rotate(-112deg)}50%{transform:rotate(-100deg)}}
+
+.savebox{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--green-l);border:2px solid var(--green)}
+.savebox p{margin:0;flex:1 1 320px}
+#saveToast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);background:var(--green);color:#fff;font-weight:800;padding:8px 16px;border-radius:30px;opacity:0;transition:.3s;z-index:70;pointer-events:none}
+#saveToast.show{opacity:1;transform:translate(-50%,0)}
+@media print{
+  .capsule{display:none!important}
+  nav.top,.print-btn,.prof-btn,.btns,button,.prof-banner,.savebox,#saveToast{display:none!important}
+  body.prof .solution{display:block!important}
+  body{background:#fff;font-size:12pt}
+  .card{box-shadow:none;border:1px solid #ccc;break-inside:avoid}
+  .hero{padding:20px 0}
+  .flip{height:auto}.flip-in{transform:none!important}.face{position:static;backface-visibility:visible;transform:none!important;margin-bottom:4px;box-shadow:none}
+}
+/* ---- éléments propres au module omnicanal ---- */
+.actors{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.actor{border-radius:18px;padding:18px;text-align:center;border:3px solid;background:#fff}
+.actor .ico{font-size:2.2rem;display:block}
+.actor h4{font-size:1.35rem;margin:6px 0}
+.actor p{margin:0}.actor small{color:var(--muted);font-weight:700}
+.a-brick{border-color:var(--green);background:var(--green-l)}
+.a-click{border-color:var(--teal);background:var(--teal-l)}
+.a-pure{border-color:var(--orange);background:var(--orange-l)}
+.strat{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.st{border-radius:18px;padding:16px;color:#fff}
+.st h4{font-size:1.4rem;margin:0 0 6px}.st p{margin:8px 0 0;font-size:.95rem}
+.s-multi{background:linear-gradient(135deg,#5b6fc7,#7b5cc4)}
+.s-cross{background:linear-gradient(135deg,#2a8c9c,#3aa3a8)}
+.s-omni{background:linear-gradient(135deg,#f0883e,#e0524b)}
+.mini{display:flex;gap:8px;align-items:center;justify-content:center;background:rgba(255,255,255,.18);border-radius:14px;padding:10px;font-size:1.6rem}
+.mini span{background:#fff;border-radius:12px;width:46px;height:46px;display:grid;place-items:center}
+.mini.hub b{font-size:1.8rem}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.tool{background:var(--bg);border-radius:16px;padding:14px;text-align:center;border:2px solid var(--line)}
+.tool span{font-size:2rem;display:block}.tool b{display:block;font-family:"Baloo 2";font-size:1.1rem}
+.tool small{color:var(--muted);font-weight:700;font-size:.82rem}
+.parcours{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:10px}
+@media(max-width:640px){.parcours{grid-template-columns:1fr}}
+.pc{border-radius:18px;padding:16px;text-align:center;border:3px solid;background:#fff}
+.pc h4{font-size:1.3rem;margin:0}.pc p{margin:4px 0 10px}
+.p1{border-color:var(--yellow);background:var(--yellow-l)}.p2{border-color:var(--green);background:var(--green-l)}
+.p3{border-color:var(--teal);background:var(--teal-l)}.p4{border-color:var(--violet);background:var(--violet-l)}
+.flow{display:flex;gap:8px;justify-content:center;align-items:center}
+.flow span{width:46px;height:46px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:1.4rem;box-shadow:var(--shadow)}
+.flow b{color:var(--muted);font-size:1.3rem}
+/* portrait illustré */
+.author .av-face{width:46px;height:46px;border-radius:50%;border:3px solid #ffd28a;display:block;background:#fff}
+.cover .cface img{width:100%;height:100%;display:block}
+.who{align-self:center}
+.av-photo{position:relative;width:100%;aspect-ratio:1;border-radius:50%;margin-bottom:22px}
+.av-photo img{position:relative;width:100%;height:100%;border-radius:50%;display:block;box-shadow:0 12px 30px rgba(0,0,0,.4);border:4px solid rgba(255,255,255,.85);transition:transform .3s}
+.av-photo .wave{position:absolute;inset:0;border-radius:50%;border:3px solid #ffd28a;opacity:0}
+.talking .av-photo .wave{animation:ring 1.6s ease-out infinite}
+.talking .av-photo .w2{animation-delay:.8s}
+.talking .av-photo img{animation:speak 1.2s ease-in-out infinite}
+@keyframes ring{from{transform:scale(1);opacity:.8}to{transform:scale(1.25);opacity:0}}
+@keyframes speak{0%,100%{transform:scale(1)}50%{transform:scale(1.025)}}
+@media(max-width:640px){.av-photo{margin-bottom:12px}}
+/* ---- éléments propres au module prix ---- */
+.author-txt{padding:6px 16px}
+.sim select{width:100%}
+.chain{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.chain>span{font-weight:800;color:var(--muted);font-size:.9rem}
+.ck{flex:1 1 150px;border-radius:16px;padding:12px 14px;color:#fff;text-align:center}
+.ck small{display:block;opacity:.85;font-weight:700}.ck b{font-family:"Baloo 2";font-size:1.15rem}
+.c1{background:#5b6fc7}.c2{background:var(--teal)}.c3{background:var(--violet)}.c4{background:var(--orange)}
+.formula{background:var(--violet-l);border-radius:16px;padding:14px 16px;border-left:6px solid var(--violet)}
+.formula small{display:block;font-weight:800;color:var(--violet);text-transform:uppercase;font-size:.75rem;letter-spacing:.05em}
+.formula b{display:block;font-family:"Baloo 2";font-size:1.25rem;margin:4px 0}
+.formula i{font-size:.9rem;color:var(--muted)}
+.formula.big b{font-size:1.35rem}
+.law{background:#fff;border:2px solid var(--line);border-radius:16px;padding:16px;border-top:6px solid var(--red)}
+.law h4{font-size:1.25rem}.law ul{padding-left:18px;margin:6px 0}.law li{margin-bottom:4px}
+.laws{grid-template-columns:repeat(2,1fr)}
+@media(max-width:700px){.laws{grid-template-columns:1fr}}
+.chip-card{background:var(--green-l);border-radius:14px;padding:12px;font-weight:700;text-align:center}
+/* ---- THÈME MÉTIERS DE L'ACCUEIL (framboise) ---- */
+:root{--teal:#c0396b;--teal-d:#8e2450;--teal-l:#fce8ef;--bg:#fbf4f6;--line:#ecd9e0}
+body{background:var(--bg)}
+.hero{background:linear-gradient(135deg,#8e2450 0%,#c0396b 50%,#ee8a73 125%)}
+.hero .meta span{color:var(--teal-d)}
+#progress{background:linear-gradient(90deg,#ee8a73,#c0396b)}
+.center-title{background:linear-gradient(135deg,#8e2450,#c0396b)}
+.face.front{border-color:var(--teal);color:var(--teal-d)}
+.face.back{background:var(--teal)}
+.rf{height:120px}
+.rf .face.front{font-size:1.05rem;border-color:var(--red);color:#a12f29}
+.rf .face.back{background:var(--green);font-size:1rem;font-weight:800}
+/* schéma multicanal */
+.hub{position:relative;max-width:560px;height:370px;margin:18px auto}
+.hub-c,.hub-i{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-radius:50%;font-size:1.6rem}
+.hub-c{width:132px;height:132px;left:50%;top:50%;transform:translate(-50%,-50%);background:linear-gradient(135deg,#8e2450,#c0396b);color:#fff;box-shadow:0 10px 26px rgba(142,36,80,.35)}
+.hub-c b{font-family:"Baloo 2";font-size:1.05rem;line-height:1.1}
+.hub-i{width:104px;height:104px;background:#fff;border:3px solid var(--teal);box-shadow:var(--shadow)}
+.hub-i b{font-family:"Baloo 2";font-size:.85rem;line-height:1.05;color:var(--teal-d);padding:0 6px}
+.hub::before{content:"";position:absolute;left:50%;top:50%;width:270px;height:270px;transform:translate(-50%,-50%);border:2px dashed #e3b6c7;border-radius:50%}
+.h1{left:50%;top:0;transform:translateX(-50%)}
+.h2{right:2%;top:27%}
+.h3{right:12%;bottom:0}
+.h4{left:12%;bottom:0}
+.h5{left:2%;top:27%}
+@media(max-width:520px){.hub{height:auto;display:flex;flex-wrap:wrap;gap:10px;justify-content:center}.hub::before{display:none}.hub-c,.hub-i{position:static;transform:none}.hub-c{width:100%;height:auto;border-radius:16px;padding:12px}}
+/* ---- éléments propres au module « identifier la demande » ---- */
+.abbr{display:flex;flex-wrap:wrap;gap:8px}
+.abbr span{background:var(--teal-l);border-radius:10px;padding:6px 10px;font-size:.9rem}
+.abbr b{color:var(--teal-d);margin-right:4px}
+.qqo{display:grid;grid-template-columns:repeat(auto-fit,minmax(122px,1fr));gap:8px}
+.qqo div{background:#fff;border:2px solid var(--teal);border-radius:16px;padding:12px;text-align:center;display:flex;flex-direction:column;gap:4px}
+.qqo b{font-family:"Baloo 2";font-size:1.2rem;color:var(--teal-d);white-space:nowrap}
+.qqo span{font-weight:800;background:var(--teal-l);border-radius:8px;padding:2px 6px}
+.qqo i{font-size:.82rem;color:var(--muted)}
+.rgpd{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.rgpd div{position:relative;background:var(--bg);border-radius:16px;padding:16px 16px 14px 58px;border:2px solid var(--line)}
+.rgpd span{position:absolute;left:14px;top:14px;width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#8e2450,#c0396b);color:#fff;font-weight:800;display:grid;place-items:center}
+.rgpd div>b{font-family:"Baloo 2";font-size:1.1rem;line-height:1.2;display:block}
+.rgpd p{margin:6px 0 0;font-size:.9rem}
+.fiche{border:3px solid var(--teal);border-radius:16px;overflow:hidden;background:#fff;max-width:760px}
+.fm-head{background:linear-gradient(135deg,#8e2450,#c0396b);color:#fff;font-weight:800;padding:10px 16px;letter-spacing:.03em}
+.fm-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:16px}
+.fm-grid label{font-weight:800;font-size:.85rem;color:var(--teal-d);display:flex;flex-direction:column;gap:4px}
+.fm-grid label.full{grid-column:1/-1}
+.fm-grid input{width:100%;min-width:0;font-weight:600}
+@media(max-width:560px){.fm-grid{grid-template-columns:1fr}}
+/* ---- éléments propres au module organigramme ---- */
+.tree{overflow-x:auto;padding:10px 4px 16px;text-align:center}
+.tree ul{padding-top:22px;position:relative;display:flex;justify-content:center;margin:0;padding-left:0}
+.tree>ul{padding-top:0}
+.tree li{list-style:none;text-align:center;position:relative;padding:22px 5px 0;flex:0 0 auto}
+.tree li::before,.tree li::after{content:"";position:absolute;top:0;right:50%;border-top:2px solid #8fb3bb;width:50%;height:22px}
+.tree li::after{right:auto;left:50%;border-left:2px solid #8fb3bb}
+.tree li:only-child::before,.tree li:only-child::after{display:none}
+.tree li:only-child{padding-top:0}
+.tree li:first-child::before,.tree li:last-child::after{border:0 none}
+.tree li:last-child::before{border-right:2px solid #8fb3bb;border-radius:0 8px 0 0}
+.tree li:first-child::after{border-radius:8px 0 0 0}
+.tree ul ul::before{content:"";position:absolute;top:0;left:50%;border-left:2px solid #8fb3bb;width:0;height:22px}
+.tree>ul>li{padding-top:0}
+.tree>ul>li::before,.tree>ul>li::after{display:none}
+.node{display:inline-block;padding:8px 12px;border-radius:12px;font-weight:800;font-size:.86rem;line-height:1.25;background:#fff;border:2px solid var(--line);box-shadow:0 3px 10px rgba(30,70,80,.08);cursor:default;min-width:110px;max-width:170px}
+.node small{font-weight:600;color:inherit;opacity:.85}
+#brico .node{cursor:pointer;transition:.15s}
+#brico .node:hover{transform:translateY(-2px)}
+.node.sel{outline:3px solid var(--orange);outline-offset:2px}
+.lvl1{background:var(--ink);color:#fff;border-color:var(--ink)}
+.lvl2{background:var(--teal);color:#fff;border-color:var(--teal)}
+.lvl3{background:var(--teal-l);border-color:var(--teal)}
+.lvl4{background:var(--yellow-l);border-color:var(--yellow)}
+.node.staff{background:var(--violet-l);border:2px dashed var(--violet);color:#4d3891}
+.toprow{display:inline-flex;align-items:center;gap:0}
+.dash{display:inline-block;width:26px;border-top:2px dashed var(--violet)}
+.legend{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;font-size:.85rem;font-weight:700;color:var(--muted);margin:6px 0 12px}
+.legend i{display:inline-block;width:28px;vertical-align:middle;margin-right:6px}
+.l-full{border-top:2px solid #8fb3bb}.l-dash{border-top:2px dashed var(--violet)}
+.sw{height:14px;border-radius:4px}.staffsw{width:22px!important;background:var(--violet-l);border:2px dashed var(--violet)}
+#roleInfo{background:var(--bg);border-radius:14px;padding:14px 16px;min-height:90px}
+#roleInfo h4{font-size:1.2rem;margin-bottom:4px}#roleInfo p{margin:0}
+.structs{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.sc{border:2px solid var(--line);border-radius:18px;padding:16px;background:#fff;border-top:6px solid var(--teal)}
+.sc:nth-child(2){border-top-color:var(--violet)}.sc:nth-child(3){border-top-color:var(--orange)}.sc:nth-child(4){border-top-color:var(--green)}.sc:nth-child(5){border-top-color:var(--red)}
+.sc h4{font-size:1.25rem}.sc p{margin:8px 0 0;font-size:.93rem}
+.sc .proscons{display:flex;flex-direction:column;gap:2px;font-weight:700;font-size:.85rem}
+.mini-org{display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--bg);border-radius:12px;padding:10px}
+.mini-org>div{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;align-items:center}
+.mini-org b{background:var(--teal);color:#fff;border-radius:8px;padding:3px 8px;font-size:.78rem}
+.mini-org i{border:2px dashed var(--violet);color:#4d3891;border-radius:8px;padding:2px 6px;font-size:.72rem;font-style:normal;font-weight:700}
+.mini-org.grid2{display:grid;grid-template-columns:repeat(3,auto);justify-content:center}
+.mini-org.grid2 b:nth-child(1){background:transparent;color:var(--muted)}
+@media print{.tree{overflow:visible}}
+/* ---- éléments propres au module « traiter la demande » ---- */
+#docks .node{cursor:pointer}
+#posteInfo{background:var(--bg);border-radius:14px;padding:14px 16px;min-height:80px}
+#posteInfo h4{font-size:1.2rem;margin-bottom:4px}#posteInfo p{margin:0}
+.res3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.res3 div{background:#fff;border:2px solid var(--teal);border-radius:18px;padding:18px;text-align:center}
+.res3 span{font-size:2.4rem;display:block}.res3 h4{font-size:1.35rem;margin:4px 0;color:var(--teal-d)}.res3 p{margin:0}
+.flow3{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:stretch}
+.flow3>div{background:var(--teal-l);border-radius:16px;padding:14px 16px}
+.flow3>div:nth-of-type(2){background:var(--violet-l)}.flow3>div:nth-of-type(3){background:var(--orange-l)}
+.flow3 small{font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-size:.75rem}
+.flow3 h4{font-size:1.15rem;margin:2px 0 6px}.flow3 ul{margin:0;padding-left:18px;font-size:.93rem}
+.flow3 .arr{align-self:center;font-size:1.6rem;color:var(--teal)}
+@media(max-width:760px){.flow3{grid-template-columns:1fr}.flow3 .arr{transform:rotate(90deg);justify-self:center}}
+.proc details{border:2px solid var(--line);border-radius:14px;margin-bottom:8px;background:#fff;overflow:hidden}
+.proc summary{cursor:pointer;padding:12px 16px;font-weight:800;list-style:none;position:relative;padding-right:40px}
+.proc summary::-webkit-details-marker{display:none}
+.proc summary::after{content:"＋";position:absolute;right:16px;top:10px;color:var(--teal);font-size:1.2rem}
+.proc details[open] summary{background:var(--teal-l);color:var(--teal-d)}
+.proc details[open] summary::after{content:"－"}
+.proc details p{margin:0;padding:12px 16px 14px}
+.quote{background:var(--bg);border-left:4px solid var(--teal);border-radius:8px;padding:8px 12px;font-style:italic;margin:8px 0 0}
+@media print{.proc details{break-inside:avoid}.proc details p{display:block}}
+/* ---- éléments propres au module « co-construire » ---- */
+.path{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;position:relative}
+.path::before{content:"";position:absolute;left:5%;right:5%;top:22px;height:4px;background:linear-gradient(90deg,#ee8a73,#c0396b,#7b5cc4);border-radius:4px;z-index:0}
+.pst{position:relative;z-index:1;background:#fff;border:2px solid var(--line);border-radius:16px;padding:12px;text-align:center}
+.pst span{display:grid;place-items:center;width:44px;height:44px;margin:-34px auto 6px;border-radius:50%;background:linear-gradient(135deg,#8e2450,#c0396b);color:#fff;font-weight:800;font-size:1.2rem;border:4px solid #fff}
+.pst h4{font-size:1.1rem;color:var(--teal-d);margin:0 0 4px}.pst p{margin:0;font-size:.86rem}
+.path{padding-top:24px}
+@media(max-width:760px){.path{grid-template-columns:1fr;gap:26px}.path::before{display:none}}
+.conf{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:12px 0}
+.cf label{display:block;font-weight:800;font-size:.85rem;color:var(--teal-d);margin-bottom:4px}
+.cf select{width:100%;min-width:0}
+#confOut div{font-weight:700}
+/* ---- éléments propres au module « satisfaction et fidélisation » ---- */
+.bars{display:flex;flex-direction:column;gap:14px;margin-top:10px}
+.bar-row{display:grid;grid-template-columns:190px 1fr;gap:12px;align-items:center}
+.bar-l{font-weight:800;font-size:.92rem}
+.bar-g{display:flex;flex-direction:column;gap:4px}
+.bar{height:20px;border-radius:6px;position:relative;min-width:40px}
+.bar span{position:absolute;right:6px;top:0;font-size:.75rem;font-weight:800;line-height:20px}
+.bar.old{background:#d9c3cc;color:#5b3a47}.bar.new{background:var(--teal);color:#fff}
+.bar-d{font-weight:800;text-align:right;border-radius:8px;padding:3px 6px;font-size:.88rem}
+.bar-d.up{background:var(--green-l);color:#2f6d23}.bar-d.down{background:var(--red-l);color:#a12f29}
+.legend2{display:flex;gap:16px;justify-content:center;margin-top:12px;font-size:.85rem;font-weight:700;color:var(--muted)}
+.legend2 i{display:inline-block;width:18px;height:12px;border-radius:3px;margin-right:6px;vertical-align:middle}
+@media(max-width:600px){.bar-row{grid-template-columns:1fr}}
+/* ---- éléments propres au module « flux » ---- */
+.vbars{display:flex;align-items:flex-end;gap:8px;height:260px;padding:10px 4px 0;border-bottom:2px solid var(--line);overflow-x:auto}
+.vcol{flex:1 0 60px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.vbar{width:70%;background:linear-gradient(180deg,#c0396b,#8e2450);border-radius:8px 8px 0 0;min-height:4px}
+.vval{font-weight:800;font-size:.85rem;color:var(--teal-d);margin-bottom:4px}
+.vlab{font-size:.7rem;font-weight:700;color:var(--muted);text-align:center;line-height:1.15;margin-top:6px;height:2.4em}
+.vgap{flex:0 0 26px;align-self:stretch;display:flex;align-items:center;justify-content:center;border-left:2px dashed var(--line);border-right:2px dashed var(--line)}
+.vgap span{writing-mode:vertical-rl;font-size:.7rem;color:var(--muted);font-weight:700}
+.hub-i b{font-size:.78rem}
+.hub-c b{font-size:.9rem;padding:0 8px}
+.res3.five{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.res3.five h4{font-size:1.15rem}.res3.five p{font-size:.9rem}
+/* ---- éléments propres au module « gérer l'attente » ---- */
+.matrix{display:grid;grid-template-columns:110px 1fr 1fr;gap:8px;margin:12px 0}
+.mx-h,.mx-v{font-weight:800;font-family:"Baloo 2";display:flex;align-items:center;justify-content:center;text-align:center;color:var(--muted)}
+.mx-v{writing-mode:horizontal-tb}
+.mx{border-radius:14px;padding:14px;min-height:96px}
+.mx b{display:block;font-family:"Baloo 2";font-size:1.1rem;margin-bottom:4px}.mx span{font-size:.9rem}
+.m1{background:var(--red-l);border:2px solid var(--red)}.m2{background:var(--green-l);border:2px solid var(--green)}
+.m3{background:var(--yellow-l);border:2px solid var(--yellow)}.m4{background:var(--bg);border:2px solid var(--line)}
+@media(max-width:600px){.matrix{grid-template-columns:70px 1fr 1fr}.mx{padding:10px}.mx b{font-size:.95rem}.mx span{font-size:.8rem}}
+/* ---- éléments propres au module « signes de tension » ---- */
+.src5{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.src5 div{background:#fff;border:2px solid var(--teal);border-radius:16px;padding:14px;text-align:center;display:flex;flex-direction:column;gap:4px}
+.src5 span{font-size:2rem}.src5 h4{font-size:1.1rem;color:var(--teal-d);margin:0}.src5 p{margin:0;font-size:.88rem}
+.src5 i{font-size:.85rem;color:var(--muted);background:var(--bg);border-radius:8px;padding:6px 8px;margin-top:auto}
+.types{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.ty{border-radius:16px;padding:14px;border:2px solid;background:#fff}
+.ty h4{font-size:1.15rem;margin:0 0 6px}.ty ul{margin:0;padding-left:18px;font-size:.92rem}
+.ty .att{margin:10px 0 0;font-size:.85rem;background:var(--bg);border-radius:10px;padding:8px}
+.t1{border-color:var(--yellow)}.t2{border-color:var(--orange)}.t3{border-color:var(--violet)}.t4{border-color:var(--red);background:var(--red-l)}.t5{border-color:var(--teal)}
+.thermo{display:flex;gap:6px;flex-wrap:wrap}
+.th{flex:1 1 120px;color:#fff;font-size:1rem;padding:14px 10px;border-radius:12px;opacity:.75}
+.th.on{opacity:1;outline:3px solid var(--ink);outline-offset:2px}
+.l1{background:#5aa84a}.l2{background:#e6b532}.l3{background:#f0883e}.l4{background:#e0524b}
+.thermo-info{background:var(--bg);border-radius:14px;padding:14px 16px;margin-top:12px;min-height:90px}
+.thermo-info h4{font-size:1.2rem;margin-bottom:4px}.thermo-info p{margin:4px 0}
+.diag{display:grid;gap:8px;margin:10px 0}
+.dq{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;border:2px solid var(--line);border-radius:12px;padding:10px 12px;background:#fff}
+.dq p{margin:0;flex:1 1 300px}.dq select{min-width:150px}
+@media print{.thermo button{display:inline-block!important}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="tag">ÉCONOMIE-GESTION · MÉTIERS DE L'ACCUEIL</span><span class="author author-txt">LEGER Isabelle</span>
+    <h1>Repérer les signes de tension</h1>
+    <p>Identifier les sources de conflits, repérer les signes de tension chez les clients difficiles, adopter la bonne attitude et connaître les facteurs de stress pour se contrôler. Cours, thermomètre de tension, auto-diagnostic, activités, synthèse et quiz.</p>
+    <div class="meta"><span>🎓 Bac Pro – 1<sup>re</sup> / T<sup>le</sup></span><span>⏱️ 4 à 6 séances</span><span>🧩 8 activités + quiz</span><span>🌡️ Thermomètre de tension</span></div>
+  </div>
+</header>
+
+<nav class="top">
+  <div class="wrap" id="navlinks">
+    <a href="#s0">🎯 Situation</a>
+    <a href="#s1">1 · Sources de conflits</a>
+    <a href="#s2">2 · Signes de tension</a>
+    <a href="#s3">3 · Se contrôler</a>
+    <a href="#s7">📌 Synthèse</a>
+    <a href="#s8">🏆 Quiz</a>
+  </div>
+  <div id="progress"></div>
+</nav>
+
+<main class="wrap">
+
+<!-- ============ 0. SITUATION ============ -->
+<section id="s0">
+  <div class="card situation">
+    <div class="persona">
+      <div class="avatar">🌡️</div>
+      <div>
+        <span class="pill" style="background:var(--yellow);color:#6b4f00">Situation professionnelle <span class="fictif">fictive</span></span>
+        <h2 style="margin-top:6px">Bienvenue au <em>service clients d'Électro Maison</em> !</h2>
+        <p>Vous effectuez votre PFMP à l'accueil du <b>service clients d'Électro Maison</b>, un grand magasin d'électroménager et de multimédia. Ici, on reçoit les retours, les pannes, les réclamations et les demandes de remboursement.</p>
+        <p>Certains clients arrivent déjà agacés : un lave-linge en panne depuis dix jours, une livraison ratée, une réparation qui tarde… Mme Lambert, responsable du service, vous explique : « Repérer la tension <b>tôt</b>, c'est éviter le conflit. Et pour bien gérer les clients, il faut d'abord savoir se gérer <b>soi-même</b>. »</p>
+        <p style="margin-bottom:0"><b>Votre mission :</b> identifier les sources de conflits, <b>repérer les signes de tension</b> chez les clients et apprendre à <b>maîtriser vos émotions et votre stress</b>.</p>
+      </div>
+    </div>
+  </div>
+  <div class="card savebox">
+    <p>💾 <b>Vos réponses sont enregistrées automatiquement</b> sur cet ordinateur, dans ce navigateur. Vous les retrouverez en revenant sur la page avec le même poste et le même navigateur.</p>
+    <button class="b-sol" id="clearMine">🗑️ Effacer mes réponses</button>
+  </div>
+  <div class="card">
+    <h3>🎯 Objectifs de la séquence</h3>
+    <ul class="check-list">
+      <li>Identifier les cinq sources de conflits avec un client ou un usager.</li>
+      <li>Repérer les signes de tension chez les clients difficiles et les reconnaître.</li>
+      <li>Adapter son attitude à chaque type de client difficile.</li>
+      <li>Connaître les facteurs de stress au travail.</li>
+      <li>Appliquer des conseils pour maîtriser ses émotions et son stress.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ 1. SOURCES DE CONFLITS ============ -->
+<section id="s1">
+  <div class="sec-head"><div class="num">1</div><h2>Identifier les sources de conflits<small>D'où vient le désaccord ?</small></h2></div>
+  <div class="card">
+    <div class="def"><b>Conflit :</b> opposition entre deux personnes (ou plus) qui ont des attentes, des intérêts ou des points de vue différents, et qui se traduit par des tensions. Bien géré, un désaccord peut se résoudre ; mal géré, il peut dégénérer.</div>
+    <p>Les conflits avec le client ou l'usager peuvent avoir plusieurs sources :</p>
+    <div class="src5">
+      <div><span>🤝</span><h4>Les relations interpersonnelles</h4><p>Mauvais contact, manque de respect, ton inadapté, incompréhension entre deux personnes.</p><i>« Votre collègue m'a parlé comme à un enfant ! »</i></div>
+      <div><span>💶</span><h4>Les intérêts</h4><p>Le client et l'entreprise ne veulent pas la même chose : remboursement, geste commercial, délai…</p><i>« Je veux être remboursé, pas un avoir ! »</i></div>
+      <div><span>📢</span><h4>Les informations</h4><p>Information absente, fausse, contradictoire ou mal comprise.</p><i>« On m'avait dit que la réparation était gratuite ! »</i></div>
+      <div><span>⚖️</span><h4>Les valeurs et les croyances</h4><p>Ce que la personne juge juste, honnête ou normal n'est pas respecté.</p><i>« C'est une question de principe : ce n'est pas honnête ! »</i></div>
+      <div><span>🏢</span><h4>L'organisation interne et les fonctions</h4><p>Procédures lourdes, renvois d'un service à l'autre, personne qui n'a pas le pouvoir de décider.</p><i>« C'est la troisième fois qu'on me renvoie vers un autre service ! »</i></div>
+    </div>
+    <div class="retenir">Identifier la <b>source</b> du conflit permet de choisir la bonne réponse : une erreur d'<b>information</b> se corrige en expliquant, un conflit d'<b>intérêts</b> se règle en cherchant un compromis, un problème d'<b>organisation</b> se signale au responsable…</div>
+  </div>
+
+  <div class="card activite">
+    <h3>Activité 1 – Quelle est la source du conflit ?</h3>
+    <span class="pill act-tag">Identifier</span>
+    <div class="exo" id="exo1">
+      <div class="row"><p>1. « Le site indiquait une livraison sous 48 h, et j'attends depuis une semaine ! »</p><select data-answer="info"></select></div>
+      <div class="row"><p>2. « Je veux un téléviseur neuf en échange, pas une réparation ! »</p><select data-answer="int"></select></div>
+      <div class="row"><p>3. « Le vendeur ne m'a même pas regardé et m'a répondu sèchement. »</p><select data-answer="rel"></select></div>
+      <div class="row"><p>4. « Le magasin m'envoie au SAV, le SAV m'envoie au fabricant, et le fabricant au magasin ! »</p><select data-answer="orga"></select></div>
+      <div class="row"><p>5. « Faire payer la réparation d'un appareil acheté il y a 3 mois, ce n'est pas correct, c'est une question de respect du client ! »</p><select data-answer="val"></select></div>
+      <div class="row"><p>6. « Vous ne pouvez rien décider ? Alors à quoi sert l'accueil ? »</p><select data-answer="orga"></select></div>
+    </div>
+    <div class="btns"><button class="b-check prof-only" data-exo="exo1">Vérifier</button><button class="b-sol prof-only" data-sol="exo1">Correction</button><span class="score" id="score-exo1"></span></div>
+    <p class="src">Un même conflit peut avoir plusieurs sources : l'essentiel est de justifier la source principale.</p>
+  </div>
+</section>
+
+<!-- ============ 2. SIGNES DE TENSION ============ -->
+<section id="s2">
+  <div class="sec-head"><div class="num" style="background:var(--violet)">2</div><h2>Repérer les signes de tension chez le client<small>Les clients difficiles</small></h2></div>
+  <div class="card">
+    <p>Les signes de tension chez les clients difficiles :</p>
+    <div class="types">
+      <div class="ty t1"><h4>😒 Le client râleur</h4><ul><li>Bougonne, soupire</li><li>Utilise un ton plaintif</li><li>Affiche un air las</li></ul><p class="att"><b>Attitude :</b> l'écouter, le laisser s'exprimer, reformuler, rester positif.</p></div>
+      <div class="ty t2"><h4>😠 Le client en colère</h4><ul><li>Parle fort, crie</li><li>A le visage fermé</li></ul><p class="att"><b>Attitude :</b> le laisser « vider son sac » sans l'interrompre, rester calme, baisser le ton, reconnaître son mécontentement.</p></div>
+      <div class="ty t3"><h4>😤 Le client autoritaire</h4><ul><li>Donne des ordres</li><li>Utilise un ton sec et sarcastique</li></ul><p class="att"><b>Attitude :</b> rester courtois mais ferme, s'appuyer sur les règles et les procédures, proposer des solutions possibles.</p></div>
+      <div class="ty t4"><h4>🤬 Le client agressif, violent</h4><ul><li>Parle fort, critique, menace</li><li>Peut avoir des gestes violents</li></ul><p class="att"><b>Attitude :</b> garder ses distances, ne pas répondre à l'agressivité, se protéger, alerter un responsable ou la sécurité.</p></div>
+      <div class="ty t5"><h4>😟 Le client inquiet</h4><ul><li>Questionne en rafale, se répète</li><li>A des gestes nerveux</li></ul><p class="att"><b>Attitude :</b> le rassurer, répondre précisément, reformuler, lui donner des repères (délais, étapes).</p></div>
+    </div>
+    <div class="retenir">Repérer le <b>type</b> de client permet d'adapter son attitude. Mais attention : on décrit des <b>comportements</b>, pas des personnes. Un client « en colère » aujourd'hui peut être très aimable demain si son problème est réglé.</div>
+  </div>
+
+  <div class="card">
+    <h3>🌡️ Le thermomètre de tension</h3>
+    <p>La tension monte souvent <b>par étapes</b>. Plus on intervient tôt, plus la situation se règle facilement. Cliquez sur un niveau.</p>
+    <div class="thermo" id="thermo">
+      <button class="th l1" data-l="1">1 · Calme</button>
+      <button class="th l2" data-l="2">2 · Agacé</button>
+      <button class="th l3" data-l="3">3 · En colère</button>
+      <button class="th l4" data-l="4">4 · Agressif</button>
+    </div>
+    <div id="thermoInfo" class="thermo-info"><p>Sélectionnez un niveau pour voir les signes et la conduite à tenir.</p></div>
+  </div>
+
+  <div class="card activite">
+    <h3>Activité 2 – Quel type de client difficile ?</h3>
+    <span class="pill act-tag">Repérer</span>
+    <div class="exo" id="exo2">
+      <div class="row"><p>1. « Bon, vous allez m'appeler votre responsable, et tout de suite. Et ne me faites pas attendre comme la dernière fois, hein ! »</p><select data-answer="auto"></select></div>
+      <div class="row"><p>2. Une cliente pose cinq questions d'affilée, répète « mais vous êtes sûre ? » et tord la anse de son sac.</p><select data-answer="inq"></select></div>
+      <div class="row"><p>3. Un client soupire : « Encore une panne… de toute façon, chez vous, rien ne marche jamais… »</p><select data-answer="raleur"></select></div>
+      <div class="row"><p>4. Un client crie, le visage fermé : « Dix jours sans lave-linge, avec trois enfants ! »</p><select data-answer="colere"></select></div>
+      <div class="row"><p>5. Un client tape du poing sur le comptoir et menace : « Vous allez voir ce qui va vous arriver ! »</p><select data-answer="agr"></select></div>
+      <div class="row"><p>6. Un client répond sur un ton sarcastique : « Bravo, vraiment, quel service exceptionnel… »</p><select data-answer="auto"></select></div>
+    </div>
+    <div class="btns"><button class="b-check prof-only" data-exo="exo2">Vérifier</button><button class="b-sol prof-only" data-sol="exo2">Correction</button><span class="score" id="score-exo2"></span></div>
+  </div>
+
+  <div class="card activite">
+    <h3>Activité 3 – La bonne attitude</h3>
+    <span class="pill act-tag">Adapter</span>
+    <p class="consigne">Choisissez l'attitude la plus adaptée à chaque client.</p>
+    <div class="exo" id="exo3">
+      <div class="row"><p>1. Le client râleur</p><select data-answer="ecoute"></select></div>
+      <div class="row"><p>2. Le client en colère</p><select data-answer="vider"></select></div>
+      <div class="row"><p>3. Le client autoritaire</p><select data-answer="ferme"></select></div>
+      <div class="row"><p>4. Le client agressif, violent</p><select data-answer="alerte"></select></div>
+      <div class="row"><p>5. Le client inquiet</p><select data-answer="rassure"></select></div>
+    </div>
+    <div class="btns"><button class="b-check prof-only" data-exo="exo3">Vérifier</button><button class="b-sol prof-only" data-sol="exo3">Correction</button><span class="score" id="score-exo3"></span></div>
+  </div>
+
+  <div class="card activite">
+    <h3>Activité 4 – Signe de tension ou non ?</h3>
+    <span class="pill act-tag">Observer</span>
+    <p class="consigne">Ces comportements sont-ils des signes de tension ?</p>
+    <div class="exo" id="exo4">
+      <div class="row"><p>1. Le client regarde l'écran de la borne, détendu, en attendant son tour.</p><select data-answer="non"></select></div>
+      <div class="row"><p>2. Le client tapote nerveusement le comptoir avec ses doigts.</p><select data-answer="oui"></select></div>
+      <div class="row"><p>3. Le client sourit et remercie pour le café proposé.</p><select data-answer="non"></select></div>
+      <div class="row"><p>4. Le client lève la voix et pointe l'agent du doigt.</p><select data-answer="oui"></select></div>
+      <div class="row"><p>5. Le client répète trois fois la même question.</p><select data-answer="oui"></select></div>
+      <div class="row"><p>6. Le client discute tranquillement avec la personne à côté de lui.</p><select data-answer="non"></select></div>
+    </div>
+    <div class="btns"><button class="b-check prof-only" data-exo="exo4">Vérifier</button><button class="b-sol prof-only" data-sol="exo4">Correction</button><span class="score" id="score-exo4"></span></div>
+  </div>
+</section>
+
+<!-- ============ 3. SE CONTRÔLER ============ -->
+<section id="s3">
+  <div class="sec-head"><div class="num" style="background:var(--yellow);color:#6b4f00">3</div><h2>Connaître les facteurs de stress pour se contrôler<small>Bien se gérer pour bien gérer les autres</small></h2></div>
+  <div class="card">
+    <div class="grid g2">
+      <div class="law" style="border-top-color:var(--red)"><h4>⚡ Les facteurs de stress</h4><ul>
+        <li><b>Intensité et temps de travail</b> : affluence, rythme élevé, horaires longs</li>
+        <li><b>Exigences émotionnelles</b> : rester souriant face à des clients mécontents, cacher ses émotions</li>
+        <li><b>Manque d'autonomie</b> : ne pas pouvoir décider, appliquer des procédures sans marge de manœuvre</li>
+        <li><b>Rapports sociaux de travail dégradés</b> : tensions avec les collègues ou la hiérarchie, manque de soutien</li>
+        <li><b>Conflits de valeurs</b> : devoir faire quelque chose qu'on juge injuste ou contraire à ses principes</li>
+        <li><b>Insécurité de la situation de travail</b> : peur de perdre son emploi, changements permanents</li></ul></div>
+      <div class="law" style="border-top-color:var(--green)"><h4>🧘 Conseils pour maîtriser ses émotions et son stress</h4>
+        <p><b>Ses émotions :</b></p><ul><li>ajuster son état d'esprit sur le service à la clientèle ;</li><li>écouter attentivement.</li></ul>
+        <p><b>Son stress :</b></p><ul><li>positiver et relativiser / ne pas être perfectionniste ;</li><li>ne pas se laisser surcharger de tâches ;</li><li>mener une seule tâche à la fois ;</li><li>s'accorder régulièrement des pauses ;</li><li>noter au maximum pour se libérer l'esprit.</li></ul></div>
+    </div>
+    <div class="retenir">Face à un client agressif, ce n'est généralement pas <b>la personne</b> de l'agent qui est visée, mais la <b>situation</b> ou l'entreprise. Prendre du recul aide à ne pas répondre sur le même ton… et à rester professionnel.</div>
+  </div>
+
+  <div class="card">
+    <h3>📋 Auto-diagnostic : mon stress au poste d'accueil <span class="fictif">non noté</span></h3>
+    <p>Pensez à une journée de PFMP (ou à une journée difficile). Pour chaque affirmation, répondez honnêtement. Vos réponses restent sur votre ordinateur.</p>
+    <div class="exo diag" id="diag"></div>
+    <div class="result" id="diagOut"></div>
+  </div>
+
+  <div class="card activite">
+    <h3>Activité 5 – Quel facteur de stress ?</h3>
+    <span class="pill act-tag">Identifier</span>
+    <div class="exo" id="exo5">
+      <div class="row"><p>1. Léa enchaîne 60 clients dans la matinée, sans pause.</p><select data-answer="intens"></select></div>
+      <div class="row"><p>2. Karim doit garder le sourire alors qu'un client l'insulte.</p><select data-answer="emo"></select></div>
+      <div class="row"><p>3. Inès ne peut accorder aucun geste commercial sans l'accord de sa responsable, souvent absente.</p><select data-answer="auto"></select></div>
+      <div class="row"><p>4. Tom ne s'entend plus avec ses collègues, qui ne l'aident jamais.</p><select data-answer="rapports"></select></div>
+      <div class="row"><p>5. Sarah doit refuser un remboursement qu'elle trouve pourtant justifié.</p><select data-answer="valeurs"></select></div>
+      <div class="row"><p>6. Le magasin annonce une réorganisation : Hugo ne sait pas s'il gardera son poste.</p><select data-answer="insec"></select></div>
+    </div>
+    <div class="btns"><button class="b-check prof-only" data-exo="exo5">Vérifier</button><button class="b-sol prof-only" data-sol="exo5">Correction</button><span class="score" id="score-exo5"></span></div>
+  </div>
+
+  <div class="card activite">
+    <h3>Activité 6 – Émotions ou stress : quel conseil appliquer ?</h3>
+    <span class="pill act-tag">Appliquer</span>
+    <div class="exo" id="exo6">
+      <div class="row"><p>1. Léa a 12 demandes en attente et tout lui semble urgent.</p><select data-answer="noter"></select></div>
+      <div class="row"><p>2. Karim répond au téléphone, remplit un dossier et renseigne un client en même temps.</p><select data-answer="unetache"></select></div>
+      <div class="row"><p>3. Inès travaille depuis 3 h sans s'arrêter et commence à s'énerver pour un rien.</p><select data-answer="pause"></select></div>
+      <div class="row"><p>4. Tom se reproche toute la soirée une petite erreur sans conséquence.</p><select data-answer="positiver"></select></div>
+      <div class="row"><p>5. Sarah prépare sa reprise après la pause en se rappelant que son rôle est d'aider le client.</p><select data-answer="etat"></select></div>
+      <div class="row"><p>6. Un client mécontent parle : Hugo pose son stylo, le regarde et l'écoute jusqu'au bout.</p><select data-answer="ecouter"></select></div>
+    </div>
+    <div class="btns"><button class="b-check prof-only" data-exo="exo6">Vérifier</button><button class="b-sol prof-only" data-sol="exo6">Correction</button><span class="score" id="score-exo6"></span></div>
+  </div>
+
+  <div class="card activite">
+    <h3>Activité 7 – Analyser le registre des incidents</h3>
+    <span class="pill act-tag">Calculer · Analyser</span>
+    <div class="doc"><h4>📊 Registre des incidents du service clients – 1<sup>er</sup> trimestre <span class="fictif">données fictives</span></h4>
+      <div class="tscroll"><table>
+        <tr><th>Source principale du conflit</th><th>Nombre d'incidents</th></tr>
+        <tr><td>Informations (délais, garanties mal expliqués)</td><td>32</td></tr>
+        <tr><td>Organisation interne (renvois entre services)</td><td>24</td></tr>
+        <tr><td>Intérêts (remboursement refusé…)</td><td>14</td></tr>
+        <tr><td>Relations interpersonnelles</td><td>6</td></tr>
+        <tr><td>Valeurs et croyances</td><td>4</td></tr>
+      </table></div>
+      <p style="margin:.6em 0 0">Au trimestre précédent, le service avait enregistré <b>100</b> incidents.</p></div>
+    <div class="exo" id="exo7">
+      <div class="row"><p>a) Nombre total d'incidents ce trimestre</p><input type="number" data-answer="80"></div>
+      <div class="row"><p>b) Part des incidents liés aux informations (%)</p><input type="number" step="0.1" data-answer="40"></div>
+      <div class="row"><p>c) Part des incidents liés à l'organisation interne (%)</p><input type="number" step="0.1" data-answer="30"></div>
+      <div class="row"><p>d) Évolution du nombre d'incidents par rapport au trimestre précédent (%)</p><input type="number" step="0.1" data-answer="-20"></div>
+    </div>
+    <div class="btns"><button class="b-check prof-only" data-exo="exo7">Vérifier</button><button class="b-sol prof-only" data-sol="exo7" data-target="sol7">Correction</button><span class="score" id="score-exo7"></span></div>
+    <div class="solution" id="sol7">a) 32 + 24 + 14 + 6 + 4 = <b>80</b><br>b) 32 ÷ 80 × 100 = <b>40 %</b> · c) 24 ÷ 80 × 100 = <b>30 %</b><br>d) (80 − 100) ÷ 100 × 100 = <b>−20 %</b><br><i>Analyse :</i> 70 % des incidents viennent des informations et de l'organisation : mieux informer les clients (délais, conditions de garantie) et éviter les renvois entre services réduirait fortement les tensions.</div>
+  </div>
+
+  <div class="card activite">
+    <h3>Activité 8 – Vrai ou faux ?</h3>
+    <span class="pill act-tag">Vérifier ses acquis</span>
+    <div class="exo" id="exo8">
+      <div class="row"><p>1. Une information fausse ou mal comprise peut être une source de conflit.</p><select data-answer="v"></select></div>
+      <div class="row"><p>2. Le client inquiet questionne en rafale et se répète.</p><select data-answer="v"></select></div>
+      <div class="row"><p>3. Face à un client en colère, il faut lui couper la parole pour l'empêcher de crier.</p><select data-answer="f"></select></div>
+      <div class="row"><p>4. Le manque d'autonomie est un facteur de stress.</p><select data-answer="v"></select></div>
+      <div class="row"><p>5. Mener plusieurs tâches à la fois réduit le stress.</p><select data-answer="f"></select></div>
+      <div class="row"><p>6. Face à un client violent, l'agent d'accueil doit se protéger et alerter.</p><select data-answer="v"></select></div>
+    </div>
+    <div class="btns"><button class="b-check prof-only" data-exo="exo8">Vérifier</button><button class="b-sol prof-only" data-sol="exo8">Correction</button><span class="score" id="score-exo8"></span></div>
+  </div>
+
+  <div class="card activite">
+    <h3>Mission de synthèse – Jeux de rôle « clients difficiles »</h3>
+    <span class="pill act-tag">Jeu de rôle · Analyser</span>
+    <p class="consigne">Par trois : un client, un agent d'accueil, un observateur (puis on tourne).</p>
+    <ol>
+      <li>Le client tire une carte « type de client » (râleur, en colère, autoritaire, inquiet) et une carte « situation » (panne, livraison ratée, remboursement refusé…). Il ne dit pas son type.</li>
+      <li>L'agent accueille le client, <b>repère les signes de tension</b>, identifie la <b>source du conflit</b> et adapte son attitude.</li>
+      <li>L'observateur note les signes verbaux et non verbaux, la source identifiée et l'attitude de l'agent.</li>
+      <li>Débriefing : l'agent explique ce qu'il a ressenti et cite deux conseils qu'il a appliqués (ou aurait dû appliquer) pour maîtriser ses émotions et son stress.</li>
+    </ol>
+    <p class="src">Le type « agressif, violent » n'est pas joué : on l'étudie à l'oral (conduite à tenir, alerte) pour des raisons de sécurité et de bien-être en classe.</p>
+  </div>
+</section>
+
+<!-- ============ 7. SYNTHÈSE ============ -->
+<section id="s7">
+  <div class="sec-head"><div class="num" style="background:var(--ink)">📌</div><h2>Synthèse<small>L'essentiel à retenir</small></h2></div>
+  <div class="center-title">REPÉRER LES SIGNES DE TENSION</div>
+  <div class="map">
+    <div class="b" style="border-color:var(--teal)"><h4>1 · Sources de conflits</h4><ul><li>Les relations interpersonnelles</li><li>Les intérêts</li><li>Les informations</li><li>Les valeurs et les croyances</li><li>L'organisation interne et les fonctions</li></ul></div>
+    <div class="b" style="border-color:var(--violet)"><h4>2 · Signes de tension</h4><ul><li><b>Râleur</b> : bougonne, soupire, ton plaintif, air las</li><li><b>En colère</b> : parle fort, crie, visage fermé</li><li><b>Autoritaire</b> : donne des ordres, ton sec et sarcastique</li><li><b>Agressif, violent</b> : parle fort, critique, menace, gestes violents</li><li><b>Inquiet</b> : questionne en rafale, se répète, gestes nerveux</li></ul></div>
+    <div class="b" style="border-color:var(--yellow)"><h4>3 · Facteurs de stress</h4><ul><li>Intensité et temps de travail</li><li>Exigences émotionnelles</li><li>Manque d'autonomie</li><li>Rapports sociaux dégradés</li><li>Conflits de valeurs</li><li>Insécurité de la situation de travail</li></ul></div>
+    <div class="b" style="border-color:var(--green)"><h4>🧘 Se contrôler</h4><ul><li><b>Émotions</b> : état d'esprit tourné vers le service, écoute attentive</li><li><b>Stress</b> : positiver, relativiser, ne pas se surcharger, une tâche à la fois, des pauses, noter</li></ul></div>
+  </div>
+  <div class="card" style="margin-top:22px">
+    <h3>🃏 Lexique – cliquez pour retourner les cartes</h3>
+    <div class="grid g4" id="flips"></div>
+  </div>
+</section>
+
+<!-- ============ 8. QUIZ ============ -->
+<section id="s8">
+  <div class="sec-head"><div class="num" style="background:var(--violet)">🏆</div><h2>Quiz final<small>12 questions pour vérifier vos acquis</small></h2></div>
+  <div class="card" id="quiz"></div>
+  <div class="card" style="text-align:center">
+    <button class="b-check" id="quizBtn" style="font-size:1.1rem;padding:12px 26px">Valider mes réponses</button>
+    <button class="b-reset" id="quizReset">Recommencer</button>
+    <p id="quizScore"></p>
+  </div>
+</section>
+
+<!-- ============ ESPACE ENSEIGNANT ============ -->
+<section id="prof" class="prof-only">
+  <div class="sec-head"><div class="num" style="background:var(--ink)">🔒</div><h2>Espace enseignant<small>Visible uniquement après saisie du code</small></h2></div>
+  <div class="card prof-zone">
+    <h3>⚙️ Outils</h3>
+    <div class="btns">
+      <button class="b-check" id="allSol">Afficher toutes les corrections dans la page</button>
+      <button class="b-sol" onclick="window.print()">Imprimer la version corrigée</button>
+      <button class="b-sol" id="resetAll">Effacer toutes les réponses</button>
+      <button class="b-reset" id="logout">Quitter le mode enseignant</button>
+    </div>
+    <p class="src">En mode enseignant, les boutons « Vérifier » et « Correction » apparaissent sous chaque activité. L'auto-diagnostic n'est pas corrigé : il reste personnel à l'élève.</p>
+  </div>
+  <div class="card prof-zone">
+    <h3>🗓️ Déroulé proposé (indicatif)</h3>
+    <div class="tscroll"><table>
+      <tr><th>Séance</th><th>Contenu</th><th>Activités</th></tr>
+      <tr><td>1</td><td>Situation + sources de conflits</td><td>Activité 1</td></tr>
+      <tr><td>2</td><td>Les clients difficiles, thermomètre de tension</td><td>Activités 2, 3 et 4</td></tr>
+      <tr><td>3</td><td>Facteurs de stress, auto-diagnostic</td><td>Activité 5</td></tr>
+      <tr><td>4</td><td>Maîtriser ses émotions et son stress</td><td>Activité 6</td></tr>
+      <tr><td>5</td><td>Registre des incidents + vrai/faux</td><td>Activités 7 et 8</td></tr>
+      <tr><td>6</td><td>Jeux de rôle + quiz</td><td>Mission de synthèse, quiz</td></tr>
+    </table></div>
+    <p class="src">Point de vigilance : ce thème peut faire écho à des expériences personnelles des élèves (stress, violence). L'auto-diagnostic est volontairement non noté et non partagé.</p>
+  </div>
+  <div class="card prof-zone">
+    <h3>✅ Corrigé des activités à choix</h3>
+    <div id="corrSelects"></div>
+  </div>
+  <div class="card prof-zone">
+    <h3>✅ Corrigé de l'activité de calcul</h3>
+    <ul><li><b>Activité 7 :</b> 80 incidents · 40 % · 30 % · −20 %</li></ul>
+  </div>
+  <div class="card prof-zone">
+    <h3>✅ Corrigé du quiz</h3>
+    <ol class="corr-list" id="corrQuiz"></ol>
+  </div>
+  <div class="card prof-zone">
+    <h3>📝 Cartes pour les jeux de rôle (à imprimer)</h3>
+    <ul>
+      <li><b>Types :</b> râleur · en colère · autoritaire · inquiet.</li>
+      <li><b>Situations :</b> lave-linge en panne depuis 10 jours · livraison du réfrigérateur ratée deux fois · remboursement refusé (produit utilisé) · réparation sous garantie qui dure depuis un mois · téléphone acheté hier qui ne s'allume plus · client renvoyé trois fois d'un service à l'autre.</li>
+    </ul>
+  </div>
+</section>
+</main>
+
+<div class="modal" id="codeModal">
+  <div class="modal-box">
+    <h3 style="color:var(--ink)">🔒 Espace enseignant</h3>
+    <p style="margin:0">Saisissez le code d'accès.</p>
+    <input type="password" id="codeInput" autocomplete="off" aria-label="Code enseignant">
+    <p id="codeMsg"></p>
+    <div class="btns" style="justify-content:center">
+      <button class="b-check" id="codeOk">Valider</button>
+      <button class="b-sol" id="codeCancel">Annuler</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>⚠️ Électro Maison, ses salariés, ses clients et ses chiffres sont <b>fictifs</b> et créés pour les activités.</p>
+  </div>
+</footer>
+
+<div id="saveToast">💾 Réponse enregistrée</div>
+<button class="print-btn" onclick="window.print()">🖨️ Imprimer</button>
+<button class="prof-btn" id="profBtn">🔒 Espace enseignant</button>
+
+<script>
+/* ---------- auto-diagnostic (construit avant la restauration des réponses) ---------- */
+const DIAG=[
+  ["J'enchaîne les clients sans pouvoir souffler.","Intensité et temps de travail","S'accorder régulièrement des pauses, même courtes."],
+  ["Je dois garder le sourire même quand on me parle mal.","Exigences émotionnelles","Se rappeler que c'est la situation qui est visée, pas soi ; en parler après coup."],
+  ["Je ne peux rien décider sans demander l'autorisation.","Manque d'autonomie","Connaître précisément ce que l'on peut proposer seul ; demander des consignes claires."],
+  ["Je me sens seul(e), sans aide de l'équipe.","Rapports sociaux de travail dégradés","Demander de l'aide, en parler à son tuteur ou à son responsable."],
+  ["On me demande des choses que je trouve injustes.","Conflits de valeurs","En parler avec son tuteur pour comprendre la règle ; s'appuyer sur la procédure."],
+  ["Je fais plusieurs choses en même temps et j'oublie des informations.","Surcharge de tâches","Mener une seule tâche à la fois et noter au maximum."]
+];
+document.getElementById("diag").innerHTML=DIAG.map(([q],i)=>`<div class="dq"><p>${i+1}. ${q}</p><select data-i="${i}"><option value="">— Choisir —</option><option value="0">Jamais</option><option value="1">Parfois</option><option value="2">Souvent</option></select></div>`).join("");
+function diag(){
+  const sel=[...document.querySelectorAll("#diag select")], out=document.getElementById("diagOut");
+  const done=sel.filter(s=>s.value!=="");
+  if(done.length<sel.length){out.innerHTML=`Répondez aux ${sel.length} affirmations pour voir votre bilan (${done.length}/${sel.length}).`;return;}
+  const score=sel.reduce((a,s)=>a+ +s.value,0);
+  const souvent=sel.filter(s=>s.value==="2").map(s=>DIAG[+s.dataset.i]);
+  const niv=score<=3?"🟢 Stress plutôt maîtrisé":score<=7?"🟠 Quelques sources de stress à surveiller":"🔴 Plusieurs sources de stress importantes : parlez-en à votre tuteur ou à votre enseignant(e)";
+  out.innerHTML=`Score : <strong>${score} / 12</strong> — ${niv}`+(souvent.length?`<br><br>Pistes pour vous :<br>${souvent.map(d=>`• <b>${d[1]}</b> → ${d[2]}`).join("<br>")}`:"");
+}
+document.getElementById("diag").addEventListener("change",diag);
+
+/* ---------- options des listes ---------- */
+const OPTS={
+  exo1:[["rel","Les relations interpersonnelles"],["int","Les intérêts"],["info","Les informations"],["val","Les valeurs et les croyances"],["orga","L'organisation interne et les fonctions"]],
+  exo2:[["raleur","Le client râleur"],["colere","Le client en colère"],["auto","Le client autoritaire"],["agr","Le client agressif, violent"],["inq","Le client inquiet"]],
+  exo3:[["ecoute","L'écouter, le laisser s'exprimer, reformuler, rester positif"],["vider","Le laisser « vider son sac » sans l'interrompre, rester calme, baisser le ton"],["ferme","Rester courtois mais ferme, s'appuyer sur les règles, proposer des solutions"],["alerte","Garder ses distances, se protéger, alerter un responsable ou la sécurité"],["rassure","Le rassurer, répondre précisément, lui donner des repères"]],
+  exo4:[["oui","Oui, signe de tension"],["non","Non"]],
+  exo5:[["intens","Intensité et temps de travail"],["emo","Exigences émotionnelles"],["auto","Manque d'autonomie"],["rapports","Rapports sociaux de travail dégradés"],["valeurs","Conflits de valeurs"],["insec","Insécurité de la situation de travail"]],
+  exo6:[["etat","Émotions : ajuster son état d'esprit sur le service à la clientèle"],["ecouter","Émotions : écouter attentivement"],["positiver","Stress : positiver et relativiser, ne pas être perfectionniste"],["unetache","Stress : mener une seule tâche à la fois"],["pause","Stress : s'accorder régulièrement des pauses"],["noter","Stress : noter au maximum pour se libérer l'esprit"]],
+  exo8:[["v","Vrai"],["f","Faux"]]
+};
+document.querySelectorAll(".exo").forEach(ex=>{
+  const o=OPTS[ex.id]; if(!o) return;
+  ex.querySelectorAll("select").forEach(s=>{
+    s.innerHTML='<option value="">— Choisir —</option>'+o.map(([v,t])=>`<option value="${v}">${t}</option>`).join("");
+  });
+});
+
+/* ---------- thermomètre de tension ---------- */
+const THERMO={
+  1:["1 · Client calme","Signes : détendu, souriant, patient.","Conduite : accueillir avec le sourire, informer sur l'attente, rester disponible."],
+  2:["2 · Client agacé","Signes : soupire, bougonne, regarde sa montre, ton plaintif, questions répétées.","Conduite : aller vers lui, reconnaître la gêne (« Je comprends que l'attente soit longue »), donner une information précise, proposer une solution."],
+  3:["3 · Client en colère","Signes : parle fort, crie, visage fermé, ton sec ou sarcastique.","Conduite : le laisser s'exprimer sans l'interrompre, rester calme, parler doucement, reformuler, l'isoler du public si possible, proposer l'intervention d'un responsable."],
+  4:["4 · Client agressif","Signes : menaces, insultes, critiques violentes, gestes brusques ou violents.","Conduite : ne pas répondre à l'agressivité, garder ses distances, se protéger et protéger le public, alerter immédiatement un responsable ou l'agent de sécurité selon la procédure."]
+};
+document.querySelectorAll("#thermo .th").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll("#thermo .th").forEach(x=>x.classList.remove("on")); b.classList.add("on");
+  const [t,s,c]=THERMO[b.dataset.l];
+  document.getElementById("thermoInfo").innerHTML=`<h4>${t}</h4><p>${s}</p><p><b>${c.split(" : ")[0]} :</b> ${c.split(" : ").slice(1).join(" : ")}</p>`;
+}));
+
+/* ---------- lexique ---------- */
+const LEX=[
+  ["Conflit","Opposition entre personnes aux attentes ou intérêts différents, qui crée des tensions."],
+  ["Conflit d'intérêts","Le client et l'entreprise ne veulent pas la même chose (remboursement, délai…)."],
+  ["Conflit d'information","Information absente, fausse ou mal comprise."],
+  ["Client râleur","Bougonne, soupire, utilise un ton plaintif, affiche un air las."],
+  ["Client en colère","Parle fort, crie, a le visage fermé."],
+  ["Client autoritaire","Donne des ordres, utilise un ton sec et sarcastique."],
+  ["Client agressif","Parle fort, critique, menace, peut avoir des gestes violents."],
+  ["Client inquiet","Questionne en rafale, se répète, a des gestes nerveux."],
+  ["Facteur de stress","Élément de la situation de travail qui génère du stress."],
+  ["Exigences émotionnelles","Devoir contrôler ses émotions face au public (rester calme, souriant)."],
+  ["Manque d'autonomie","Ne pas pouvoir décider ni organiser son travail."],
+  ["Relativiser","Prendre du recul et ramener un problème à sa juste importance."]
+];
+document.getElementById("flips").innerHTML=LEX.map(([a,b])=>`<div class="flip" onclick="this.classList.toggle('on')"><div class="flip-in"><div class="face front">${a}</div><div class="face back">${b}</div></div></div>`).join("");
+
+/* ---------- quiz ---------- */
+const QUIZ=[
+  ["« On m'avait dit que c'était gratuit ! » : la source du conflit est :",["Les informations","Les valeurs","Les relations interpersonnelles"],0,"L'information a été mal donnée ou mal comprise."],
+  ["Un client renvoyé d'un service à l'autre : la source est :",["Les intérêts","L'organisation interne et les fonctions","Les croyances"],1,"Le fonctionnement interne crée la tension."],
+  ["Combien de sources de conflits présente la synthèse ?",["3","5","8"],1,"Relations, intérêts, informations, valeurs et croyances, organisation."],
+  ["Le client qui bougonne et soupire avec un air las est :",["Râleur","Inquiet","Autoritaire"],0,"Ton plaintif, air las."],
+  ["Le client qui donne des ordres sur un ton sec est :",["En colère","Autoritaire","Inquiet"],1,"Il cherche à imposer."],
+  ["Le client qui questionne en rafale et se répète est :",["Agressif","Râleur","Inquiet"],2,"Il a besoin d'être rassuré."],
+  ["Face à un client en colère, il faut d'abord :",["Lui couper la parole","Le laisser s'exprimer et rester calme","Crier plus fort"],1,"Il doit pouvoir « vider son sac »."],
+  ["Face à un client violent, l'agent d'accueil doit :",["Se protéger et alerter","Le raisonner seul coûte que coûte","L'ignorer"],0,"La sécurité passe en premier."],
+  ["Lequel est un facteur de stress ?",["Le manque d'autonomie","Une pause régulière","Une tâche à la fois"],0,"Ne pas pouvoir décider génère du stress."],
+  ["Devoir sourire face à un client insultant relève :",["Des exigences émotionnelles","De l'insécurité de l'emploi","Du temps de travail"],0,"On doit contrôler ses émotions."],
+  ["Pour maîtriser son stress, il est conseillé de :",["Faire plusieurs tâches à la fois","Mener une seule tâche à la fois","Ne jamais faire de pause"],1,"Et noter pour se libérer l'esprit."],
+  ["« Ne pas être perfectionniste » permet de :",["Positiver et relativiser","Travailler plus vite","Éviter les clients"],0,"Accepter les petites erreurs réduit le stress."]
+];
+const qz=document.getElementById("quiz");
+qz.innerHTML=QUIZ.map((q,i)=>`<div class="q" id="q${i}"><p>${i+1}. ${q[0]}</p>${q[1].map((o,j)=>`<label><input type="radio" name="q${i}" value="${j}"> ${o}</label>`).join("")}<div class="expl">💬 ${q[3]}</div></div>`).join("");
+document.getElementById("quizBtn").onclick=()=>{
+  let s=0; QUIZ.forEach((q,i)=>{const c=document.querySelector(`input[name=q${i}]:checked`);const g=c&&+c.value===q[2];
+    const el=document.getElementById("q"+i); el.classList.toggle("ok",!!g); el.classList.toggle("ko",!g); if(g) s++;});
+  const m=s>=10?"🏆 Excellent !":s>=7?"👍 Bien joué, revoyez les erreurs.":"📚 Relisez la synthèse et retentez !";
+  document.getElementById("quizScore").textContent=`Score : ${s} / ${QUIZ.length} — ${m}`;
+};
+document.getElementById("quizReset").onclick=()=>{qz.querySelectorAll("input").forEach(i=>i.checked=false);qz.querySelectorAll(".q").forEach(q=>q.classList.remove("ok","ko"));document.getElementById("quizScore").textContent="";};
+
+/* ---------- corrigés générés pour l'espace enseignant ---------- */
+const NAMES={exo1:"Activité 1 – Source du conflit",exo2:"Activité 2 – Type de client",exo3:"Activité 3 – Attitude",exo4:"Activité 4 – Signe de tension",exo5:"Activité 5 – Facteur de stress",exo6:"Activité 6 – Conseil",exo8:"Activité 8 – Vrai ou faux"};
+/* ---------- vérification ---------- */
+function check(id){
+  const ex=document.getElementById(id); let ok=0,n=0;
+  ex.querySelectorAll(".row").forEach(r=>{
+    const f=r.querySelector("select,input"); if(!f) return; n++;
+    const a=f.dataset.answer; let good;
+    if(f.tagName==="INPUT"){ const v=parseFloat(String(f.value).replace(",",".")); good=!isNaN(v)&&Math.abs(v-parseFloat(a))<=Math.max(0.05,Math.abs(parseFloat(a))*0.001); }
+    else good=f.value===a;
+    r.classList.toggle("ok",good); r.classList.toggle("ko",!good); if(good) ok++;
+  });
+  const sc=document.getElementById("score-"+id);
+  sc.textContent=`${ok} / ${n} ${ok===n?"🎉 Bravo !":""}`;
+}
+function solve(id,target){
+  const ex=document.getElementById(id);
+  ex.querySelectorAll("select,input").forEach(f=>{f.value=f.dataset.answer});
+  check(id);
+  if(target) document.getElementById(target).classList.add("show");
+}
+document.querySelectorAll(".b-check[data-exo]").forEach(b=>b.onclick=()=>check(b.dataset.exo));
+document.querySelectorAll(".b-sol").forEach(b=>b.onclick=()=>solve(b.dataset.sol,b.dataset.target));
+
+document.getElementById("corrSelects").innerHTML=Object.keys(NAMES).map(id=>{
+  const lab=Object.fromEntries(OPTS[id]);
+  const items=[...document.querySelectorAll(`#${id} .row`)].map(r=>`<li>${r.querySelector("p").textContent.replace(/^\d+\.\s*/,"")} → <b>${lab[r.querySelector("select").dataset.answer]}</b></li>`).join("");
+  return `<h4>${NAMES[id]}</h4><ol class="corr-list">${items}</ol>`;
+}).join("");
+document.getElementById("corrQuiz").innerHTML=QUIZ.map(q=>`<li>${q[0]} → <b>${q[1][q[2]]}</b></li>`).join("");
+
+/* ---------- mode enseignant ---------- */
+const H=911407573;
+const hash=s=>{let h=5381;for(const c of s)h=((h*33)^c.charCodeAt(0))>>>0;return h;};
+const modal=document.getElementById("codeModal"),ci=document.getElementById("codeInput"),cm=document.getElementById("codeMsg");
+function setProf(on){
+  document.body.classList.toggle("prof",on);
+  document.getElementById("profBtn").textContent=on?"🔓 Mode enseignant actif":"🔒 Espace enseignant";
+  try{on?sessionStorage.setItem("profVC","1"):sessionStorage.removeItem("profVC");}catch(e){}
+}
+try{ if(sessionStorage.getItem("profVC")==="1") setProf(true); }catch(e){}
+document.getElementById("profBtn").onclick=()=>{
+  if(document.body.classList.contains("prof")){document.getElementById("prof").scrollIntoView();return;}
+  ci.value="";cm.textContent="";modal.classList.add("open");setTimeout(()=>ci.focus(),50);
+};
+function tryCode(){
+  if(hash(ci.value.trim().toUpperCase())===H){modal.classList.remove("open");setProf(true);setTimeout(()=>document.getElementById("prof").scrollIntoView(),50);}
+  else{cm.textContent="Code incorrect.";ci.select();}
+}
+document.getElementById("codeOk").onclick=tryCode;
+ci.addEventListener("keydown",e=>{if(e.key==="Enter")tryCode();if(e.key==="Escape")modal.classList.remove("open");});
+document.getElementById("codeCancel").onclick=()=>modal.classList.remove("open");
+modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("open");});
+document.getElementById("logout").onclick=()=>{
+  setProf(false);
+  document.querySelectorAll(".solution").forEach(s=>s.classList.remove("show"));
+  window.scrollTo(0,0);
+};
+document.getElementById("allSol").onclick=()=>document.querySelectorAll(".b-sol[data-sol]").forEach(b=>b.click());
+document.getElementById("resetAll").onclick=()=>{
+  document.querySelectorAll(".exo select,.exo input").forEach(f=>f.value="");
+  document.querySelectorAll(".exo .row").forEach(r=>r.classList.remove("ok","ko"));
+  document.querySelectorAll(".score").forEach(s=>s.textContent="");
+  document.querySelectorAll(".solution").forEach(s=>s.classList.remove("show"));
+  document.getElementById("quizReset").click();
+};
+
+/* ---------- sauvegarde automatique des réponses (sur ce navigateur) ---------- */
+const KEY="signesTension_reponses_v1";
+const fields=()=>[...document.querySelectorAll(".exo select,.exo input")];
+function collect(){
+  const d={f:{},q:{}};
+  fields().forEach((f,k)=>{if(f.value!=="")d.f[k]=f.value;});
+  document.querySelectorAll("#quiz input:checked").forEach(r=>d.q[r.name]=r.value);
+  return d;
+}
+let toastT;
+function saved(){const t=document.getElementById("saveToast");t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("show"),1200);}
+function save(){
+  if(document.body.classList.contains("prof")) return; /* les corrections affichées par l'enseignante ne sont jamais enregistrées */
+  try{localStorage.setItem(KEY,JSON.stringify(collect()));saved();}catch(e){}
+}
+function restore(){
+  fields().forEach(f=>f.value="");
+  document.querySelectorAll("#quiz input").forEach(r=>r.checked=false);
+  let d=null; try{d=JSON.parse(localStorage.getItem(KEY)||"null");}catch(e){}
+  if(!d) return;
+  const fs=fields(); Object.entries(d.f||{}).forEach(([k,v])=>{if(fs[k])fs[k].value=v;});
+  Object.entries(d.q||{}).forEach(([n,v])=>{const r=document.querySelector(`#quiz input[name="${n}"][value="${v}"]`);if(r)r.checked=true;});
+}
+document.addEventListener("change",e=>{if(e.target.closest(".exo,#quiz"))save();});
+document.addEventListener("input",e=>{if(e.target.closest(".exo"))save();});
+document.getElementById("clearMine").onclick=()=>{
+  if(!confirm("Effacer toutes vos réponses enregistrées sur cet ordinateur ?")) return;
+  try{localStorage.removeItem(KEY);}catch(e){}
+  restore();
+  document.querySelectorAll(".exo .row").forEach(r=>r.classList.remove("ok","ko"));
+  document.querySelectorAll(".score").forEach(s=>s.textContent="");
+  document.getElementById("quizReset").click();
+};
+restore();
+/* en quittant le mode enseignant, on remet les réponses de l'élève (et non les corrections) */
+document.getElementById("logout").addEventListener("click",()=>{restore();document.querySelectorAll(".exo .row").forEach(r=>r.classList.remove("ok","ko"));document.querySelectorAll(".score").forEach(s=>s.textContent="");});
+document.getElementById("resetAll").addEventListener("click",()=>{try{localStorage.removeItem(KEY);}catch(e){}});
+
+/* ---------- nav active + progression ---------- */
+const links=[...document.querySelectorAll("#navlinks a")];
+window.addEventListener("scroll",()=>{
+  const h=document.documentElement; document.getElementById("progress").style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+"%";
+  let cur=links[0]; links.forEach(a=>{const s=document.querySelector(a.getAttribute("href")); if(s.getBoundingClientRect().top<140) cur=a;});
+  links.forEach(a=>a.classList.toggle("active",a===cur));
+});
+diag();
+["clearMine","logout","resetAll"].forEach(id=>document.getElementById(id).addEventListener("click",()=>setTimeout(diag,60)));
+</script>
+</body>
+</html>
